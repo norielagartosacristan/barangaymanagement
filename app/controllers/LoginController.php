@@ -34,6 +34,6 @@ class LoginController {
     public function logout() {
         session_start();
         session_destroy();
-        header('Location: /public/login');
+        header('Location: /public/login.php');
     }
 }

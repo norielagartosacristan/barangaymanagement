@@ -10,9 +10,10 @@ function calculateAge($birthdate) {
 }
 
 // Function to generate a unique ResidentID (You can modify this format as needed)
-function generateResidentID($db) {
-    $prefix = 'RES-';
-    $unique_id = uniqid($prefix);
+function generateResidentID() {
+    return mt_rand(10000000, 99999999); // Generates a random 8-digit number
+}
+
 
     // Ensure ResidentID is unique
     $query = "SELECT * FROM residents WHERE ResidentID = ?";

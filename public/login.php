@@ -1,24 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <?php if (isset($error)): ?>
-        <p style="color: red;"><?php echo $error; ?></p>
-    <?php endif; ?>
-    <form action="/public/login/authenticate" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
+<?php
+// Assuming this is part of your dashboard.php file
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
+// Connect to the database
+$db = new mysqli('localhost', 'root', '', 'barangay_management_system');
 
-        <button type="submit">Login</button>
-    </form>
+// Check for database connection errors
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
 
-</body>
-</html>
+// Query to retrieve residents with dynamically calculated age
+$query = "SELECT ResidentID, FirstName, LastName, Birthdate, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age FROM residents";
+$result = $db->query($query);
+
+// Check if any residents were returned
+if ($result->num_rows > 0) {
+    echo "<table class='table tabl-hover table-bordered table-striped'>";
+    echo "<tr><th>Resident ID</th><th>First Name</th><th>Last Name</th><th>Age</th></tr>";
+
+    // Loop through the results and display each resident
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $row['ResidentID'] . "</td>";
+        echo "<td>" . $row['FirstName'] . "</td>";
+        echo "<td>" . $row['LastName'] . "</td>";
+        echo "<td>" . $row['Age'] . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+} else {
+    echo "No residents found.";
+}
+
+// Close the database connection
+$db->close();
+?>

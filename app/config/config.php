@@ -1,7 +1,23 @@
-<?php
-// config.php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');      // Change to your DB username
-define('DB_PASS', '');          // Change to your DB password
-define('DB_NAME', 'barangay_management_system'); // Change to your DB name
+<<?php
+
+class Database {
+    private $host = 'localhost';  // Database host, usually 'localhost'
+    private $user = 'root';       // Your database username
+    private $pass = '';           // Your database password
+    private $dbname = 'your_database_name'; // Your database name
+
+    public $conn;
+
+    // Get the database connection
+    public function getConnection() {
+        $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->dbname);
+
+        // Check for connection errors
+        if ($this->conn->connect_error) {
+            die("Connection failed: " . $this->conn->connect_error);
+        }
+
+        return $this->conn;
+    }
+}
 ?>

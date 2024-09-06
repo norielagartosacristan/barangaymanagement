@@ -1,18 +1,23 @@
 <?php
-require_once '../libraries/Database.php';  // Make sure to include the Database class
+require_once 'libraries/Database.php';
 
 class User {
     public static function findByUsername($username) {
-        $db = Database::getConnection();  // This will now work if Database class is correctly defined
+        // Get the database connection
+        $db = (new Database())->getConnection();
 
-        $stmt = $db->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
-        $stmt->bind_param("s", $username);
+        // Prepare the query
+        $stmt = $db->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->bind_param('s', $username);
+        
+        // Execute the query
         $stmt->execute();
-
+        
+        // Get the result
         $result = $stmt->get_result();
         $user = $result->fetch_object();
 
+        // Return the user data
         return $user;
     }
 }
-?>
