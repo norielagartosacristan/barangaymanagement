@@ -1,7 +1,7 @@
 <?php
 class LoginController {
     public function showLoginForm() {
-        require_once '../app/views/login.php';
+        require_once '../public/login.php';
     }
 
     public function authenticate() {
@@ -20,14 +20,14 @@ class LoginController {
 
             // Redirect based on user role
             if ($user->role === 'admin') {
-                header('Location: /public/admin/dashboard');
+                header('Location: /views/admin/dashboard');
             } else {
-                header('Location: /public/staff/dashboard');
+                header('Location: /public/login.php');
             }
         } else {
             // Wrong credentials, return to login with error
             $error = 'Invalid username or password';
-            require_once '../app/views/login.php';
+            require_once '../public/login.php';
         }
     }
 

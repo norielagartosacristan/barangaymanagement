@@ -8,6 +8,7 @@
 <body>
     <h1>Welcome Admin</h1>
     <a href="/public/logout">Logout</a>
+    <p>Hello World</p>
 </body>
 </html>
 
