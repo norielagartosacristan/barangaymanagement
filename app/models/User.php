@@ -1,23 +1,18 @@
 <?php
-require_once 'libraries/Database.php';
-
 class User {
-    public static function findByUsername($username) {
-        // Get the database connection
-        $db = (new Database())->getConnection();
+    private $db;
 
-        // Prepare the query
-        $stmt = $db->prepare("SELECT * FROM users WHERE username = ?");
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    // Find user by username
+    public function findByUsername($username) {
+        $query = "SELECT * FROM users WHERE username = ?";
+        $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $username);
-        
-        // Execute the query
         $stmt->execute();
-        
-        // Get the result
         $result = $stmt->get_result();
-        $user = $result->fetch_object();
-
-        // Return the user data
-        return $user;
+        return $result->fetch_object();
     }
 }

@@ -1,5 +1,11 @@
 <?php
 // Database connection
+$db = new mysqli('localhost', 'root', '', 'barangay_management_system');
+
+// Check if the connection was successful
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
 
 // Function to calculate age based on birthdate
 function calculateAge($birthdate) {
@@ -9,51 +15,47 @@ function calculateAge($birthdate) {
     return $age;
 }
 
-// Function to generate a unique ResidentID (You can modify this format as needed)
-function generateResidentID() {
-    return mt_rand(10000000, 99999999); // Generates a random 8-digit number
-}
+// Function to generate a unique ResidentID (8 digits)
+function generateResidentID($db) {
+    do {
+        $unique_id = mt_rand(10000000, 99999999); // Generate an 8-digit number
 
-
-    // Ensure ResidentID is unique
-    $query = "SELECT * FROM residents WHERE ResidentID = ?";
-    $stmt = $db->prepare($query);
-    $stmt->bind_param('s', $unique_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // Generate new ResidentID if it already exists
-    while ($result->num_rows > 0) {
-        $unique_id = uniqid($prefix);
+        // Check if ResidentID is unique
+        $query = "SELECT ResidentID FROM residents WHERE ResidentID = ?";
+        $stmt = $db->prepare($query);
+        if (!$stmt) {
+            die("Error preparing query: " . $db->error);
+        }
         $stmt->bind_param('s', $unique_id);
         $stmt->execute();
-        $result = $stmt->get_result();
-    }
+        $stmt->store_result();
+    } while ($stmt->num_rows > 0); // Repeat if ID already exists
 
+    $stmt->close();
     return $unique_id;
 }
 
+// Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get form data
-    $lastName = $_POST['lastName'];
-    $middleName = $_POST['middleName'];
-    $firstName = $_POST['firstName'];
-    $gender = $_POST['gender'];
-    $civilStatus = $_POST['civilStatus'];
-    $birthdate = $_POST['birthdate'];
-    $birthPlace = $_POST['birthPlace'];
-    $occupation = $_POST['occupation'];
-    $citizenship = $_POST['citizenship'];
-    $cityMunicipality = $_POST['cityMunicipality'];
-    $barangay = $_POST['barangay'];
-    $sitioZone = $_POST['sitioZone'];
-    $contactNumber = $_POST['contactNumber'];
-    $email = $_POST['email'];
+    $lastName = $_POST['lastName'] ?? '';
+    $middleName = $_POST['middleName'] ?? '';
+    $firstName = $_POST['firstName'] ?? '';
+    $gender = $_POST['gender'] ?? '';
+    $civilStatus = $_POST['civilStatus'] ?? '';
+    $birthdate = $_POST['birthdate'] ?? '';
+    $birthPlace = $_POST['birthPlace'] ?? '';
+    $occupation = $_POST['occupation'] ?? '';
+    $citizenship = $_POST['citizenship'] ?? '';
+    $cityMunicipality = $_POST['cityMunicipality'] ?? '';
+    $barangay = $_POST['barangay'] ?? '';
+    $sitioZone = $_POST['sitioZone'] ?? '';
+    $contactNumber = $_POST['contactNumber'] ?? '';
+    $email = $_POST['email'] ?? '';
 
-    // Connect to the database
-    $db = new mysqli('localhost', 'root', '', 'barangay_management_system');
-    if ($db->connect_error) {
-        die("Connection failed: " . $db->connect_error);
+    // Input validation (basic example, you can expand this as needed)
+    if (empty($lastName) || empty($firstName) || empty($birthdate)) {
+        die("Please fill out all required fields (Last Name, First Name, Birthdate).");
     }
 
     // Auto-generate ResidentID
@@ -62,18 +64,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Calculate age
     $age = calculateAge($birthdate);
 
-    // Insert into database
-    $query = "INSERT INTO residents (ResidentID, LastName, MiddleName, FirstName, Gender, CivilStatus, Birthdate, Age, BirthPlace, Occupation, Citizenship, CityMunicipality, Barangay, SitioZone, ContactNumber, Email) 
+    // Prepare the SQL query to insert into the database
+    $query = "INSERT INTO residents 
+              (ResidentID, LastName, MiddleName, FirstName, Gender, CivilStatus, Birthdate, Age, BirthPlace, Occupation, Citizenship, CityMunicipality, Barangay, SitioZone, ContactNumber, Email) 
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
     $stmt = $db->prepare($query);
+    
+    if (!$stmt) {
+        die("Error preparing statement: " . $db->error);
+    }
+
+    // Bind parameters to the query
     $stmt->bind_param('sssssssissssssss', $residentID, $lastName, $middleName, $firstName, $gender, $civilStatus, $birthdate, $age, $birthPlace, $occupation, $citizenship, $cityMunicipality, $barangay, $sitioZone, $contactNumber, $email);
 
+    // Execute the query and check if it was successful
     if ($stmt->execute()) {
         echo "Resident added successfully!";
     } else {
         echo "Error: " . $stmt->error;
     }
 
+    // Close the statement and connection
     $stmt->close();
     $db->close();
 }
+?>

@@ -1,15 +1,12 @@
 <?php
-// Start the session to access session variables
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    // User is not logged in, redirect to the login page
-    header('Location: /public/login.php');
-    exit();
+require_once '../app/controllers/AuthController.php';
+require_once '../config/Database.php';
+require_once '../routes/web.php';
+
+// Database connection
+$db = new mysqli('localhost', 'root', '', 'barangay_management_system');
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
 }
-
-// If the user is logged in, include the necessary files and proceed with the application
-require_once '../app/libraries/Database.php'; // Adjust the path if needed
-
-// Initialize your application here (e.g., routing, etc.)

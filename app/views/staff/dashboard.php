@@ -1,3 +1,16 @@
+<?php
+session_start();
+if ($_SESSION['role'] !== 'staff') {
+    header('Location: /auth/login');
+    exit();
+}
+?>
+
+<h1>Welcome to the Staff Dashboard, <?php echo $_SESSION['username']; ?>!</h1>
+<a href="/auth/logout">Logout</a>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,6 +1,13 @@
 <?php
 
-$router->get('/login', 'LoginController@showLoginForm');
-$router->post('/login/authenticate', 'LoginController@authenticate');
-$router->get('/logout', 'LoginController@logout');
+$authController = new AuthController($db);
 
+// Login route
+if ($_SERVER['REQUEST_URI'] == '/auth/login') {
+    $authController->login();
+}
+
+// Logout route
+if ($_SERVER['REQUEST_URI'] == '/auth/logout') {
+    $authController->logout();
+}
