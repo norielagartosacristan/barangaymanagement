@@ -4,7 +4,7 @@ class Database {
     private $host = 'localhost';  // Database host, usually 'localhost'
     private $user = 'root';       // Your database username
     private $pass = '';           // Your database password
-    private $dbname = 'your_database_name'; // Your database name
+    private $dbname = 'barangay_management_system'; // Your database name
 
     public $conn;
 
