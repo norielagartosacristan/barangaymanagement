@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/public/css/bootsrap.min.css">
+    <link rel="stylesheet" href="\barangaymanagement\public\css\css\bootstrap.min.css">
 </head>
 <body>
-
-
-
-
-
-
+ 
 <?php
 // Assuming this is part of your dashboard.php file
 
@@ -52,7 +47,7 @@ if ($result->num_rows > 0) {
 $db->close();
 ?>
 
-
+<button class="btn btn-success">Logout</button>
 
 </body>
 </html>
