@@ -1,5 +1,6 @@
 <?php
 
+
 $authController = new AuthController($db);
 
 // Login route

@@ -2,7 +2,7 @@
 session_start();
 
 require_once '../app/controllers/AuthController.php';
-require_once '../app/libraries/Database.php';
+require_once '../app/config/Database.php';
 require_once '../routes/web.php';
 
 // Database connection
