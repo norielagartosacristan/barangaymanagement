@@ -1,14 +1,15 @@
 <?php
+// Include the database connection
+include('db.php');
 
+// Now you can use the $db variable to run your queries
+$query = "SELECT * FROM residents";
+$result = $db->query($query);
 
-$authController = new AuthController($db);
-
-// Login route
-if ($_SERVER['REQUEST_URI'] == '/auth/login') {
-    $authController->login();
-}
-
-// Logout route
-if ($_SERVER['REQUEST_URI'] == '/auth/logout') {
-    $authController->logout();
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        echo $row['name']; // Example usage
+    }
+} else {
+    echo "Error: " . $db->error;
 }

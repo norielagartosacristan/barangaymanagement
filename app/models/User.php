@@ -1,4 +1,5 @@
 <?php
+// app/models/User.php
 class User {
     private $db;
 
@@ -6,13 +7,12 @@ class User {
         $this->db = $db;
     }
 
-    // Find user by username
-    public function findByUsername($username) {
-        $query = "SELECT * FROM users WHERE username = ?";
+    public function findUserByEmail($email) {
+        $query = "SELECT * FROM users WHERE email = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $username);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_object();
+        return $result->fetch_assoc();
     }
 }

@@ -80,5 +80,19 @@
             <button type="submit" class="btn btn-primary">Add Resident</button>
         </form>
     </div>
+
+
+    <?php
+// When creating or registering a new user
+$password = 'Formula@01';
+
+// Hash the password
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+// Store $hashedPassword in the database instead of the plain password
+echo "Hash Password: " . $hashedPassword;
+?>
+
+
 </body>
 </html>
