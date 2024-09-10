@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="\barangaymanagement\public\css\css\bootstrap.min.css">
 </head>
 <body>
-    <div class="login-form">
-        <h2>Login</h2>
-        <form action="../app/controllers/AuthController.php" method="POST">
+
+<div class="container">
+        <form method="POST" action="../app/controllers/AuthController.php">
             <div>
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" required>
@@ -19,9 +20,10 @@
                 <input type="password" name="password" id="password" required>
             </div>
             <div>
-                <button type="submit" name="action" value="login">Login</button>
-            </div>
+                <button class="btn btn-success" type="submit">Login</button>
+             </div>
         </form>
-    </div>
+</div>
+
 </body>
 </html>

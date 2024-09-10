@@ -7,47 +7,45 @@
     <link rel="stylesheet" href="\barangaymanagement\public\css\css\bootstrap.min.css">
 </head>
 <body>
- 
-<?php
-// Assuming this is part of your dashboard.php file
+    
 
-// Connect to the database
-$db = new mysqli('localhost', 'root', '', 'barangay_management_system');
 
-// Check for database connection errors
-if ($db->connect_error) {
-    die("Connection failed: " . $db->connect_error);
-}
+<div class="container">
+<!-- app/views/residents/index.php -->
+<h1>Residents</h1>
+<form method="get" action="index.php">
+    <input type="text" name="search" placeholder="Search by name" value="<?php echo $_GET['search'] ?? ''; ?>">
+    <input type="submit" value="Search">
+</form>
+<a href="index.php?action=create">Add New Resident</a>
+<table class="table table-hover table-boredered table-stripped">
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Middle Name</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Actions</th>
+    </tr>
+    <?php while ($row = $residents->fetch_assoc()) { ?>
+        <tr>
+            <td><?php echo $row['id']; ?></td>
+            <td><?php echo $row['first_name']; ?></td>
+            <td><?php echo $row['last_name']; ?></td>
+            <td><?php echo $row['middle_name']; ?></td>
+            <td><?php echo $row['gender']; ?></td>
+            <td><?php echo $row['address']; ?></td>
+            <td>
+                <a href="index.php?action=edit&id=<?php echo $row['id']; ?>">Edit</a>
+                <a href="delete.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    <?php } ?>
+</table>
 
-// Query to retrieve residents with dynamically calculated age
-$query = "SELECT ResidentID, FirstName, LastName, Birthdate, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age FROM residents";
-$result = $db->query($query);
+</div>
 
-// Check if any residents were returned
-if ($result->num_rows > 0) {
-    echo "<table>";
-    echo "<tr><th>Resident ID</th><th>First Name</th><th>Last Name</th><th>Age</th></tr>";
-
-    // Loop through the results and display each resident
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row['ResidentID'] . "</td>";
-        echo "<td>" . $row['FirstName'] . "</td>";
-        echo "<td>" . $row['LastName'] . "</td>";
-        echo "<td>" . $row['Age'] . "</td>";
-        echo "</tr>";
-    }
-
-    echo "</table>";
-} else {
-    echo "No residents found.";
-}
-
-// Close the database connection
-$db->close();
-?>
-
-<button class="btn btn-success">Logout</button>
 
 </body>
 </html>

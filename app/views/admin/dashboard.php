@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-echo "Welcome to the dashboard, " . $_SESSION['email'];
+echo "Welcome to the dashboard, " . $_SESSION['username'];
 ?>
 
 <a href="logout.php">Logout</a>

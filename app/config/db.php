@@ -1,7 +1,7 @@
 <?php
 // Database connection settings
 $host = 'localhost'; // Database host
-$dbname = 'your_database_name'; // Your database name
+$dbname = 'barangay_management_system'; // Your database name
 $username = 'root'; // Database username
 $password = ''; // Database password
 
