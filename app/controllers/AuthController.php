@@ -2,16 +2,16 @@
 
 // app/controllers/AuthController.php
 session_start();
-require_once '../includes/db.php';
-require_once '../models/User.php';
+require_once '/includes/db.php';
+require_once '../app/models/User.php';
 
 class AuthController {
     private $db;
     private $userModel;
 
     // Constructor: Ensure the User class is instantiated correctly
-    public function __construct() {
-        global $db;  // use the global database connection
+    public function __construct($db) {
+        $this->db = $db;  // use the global database connection
         $this->userModel = new User($db);  // Create an instance of the User model
     }
 

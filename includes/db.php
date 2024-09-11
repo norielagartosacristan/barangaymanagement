@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "";
+$dbname = "barangay_management_system";
 
 // Create connection
 $db = new mysqli($servername, $username, $password, $dbname);
