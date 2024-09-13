@@ -1,0 +1,9 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Remove the project directory and file extensions
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirect requests to index.php for routing
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]

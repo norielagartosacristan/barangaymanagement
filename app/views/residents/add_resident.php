@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $contactNumber = $_POST['contactNumber'] ?? '';
     $email = $_POST['email'] ?? '';
 
+
     // Input validation (basic example, you can expand this as needed)
     if (empty($lastName) || empty($firstName) || empty($birthdate)) {
         die("Please fill out all required fields (Last Name, First Name, Birthdate).");

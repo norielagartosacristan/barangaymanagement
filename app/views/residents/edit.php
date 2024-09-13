@@ -12,3 +12,14 @@
     Address: <input type="text" name="address" value="<?php echo $resident['address']; ?>" required><br>
     <input type="submit" value="Update Resident">
 </form>
+
+
+<nav aria-label="Page navigation">
+        <ul class="pagination">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                    <a class="page-link" href="index.php?page=<?php echo $i; ?>&search=<?php echo htmlspecialchars($search); ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    </nav>

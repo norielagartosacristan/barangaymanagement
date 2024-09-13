@@ -1,7 +1,7 @@
 <?php
 // app/models/Resident.php
-require_once '../includes/db.php';
 
+require_once 'D:\GrsDatabase\htdocs\barangaymanagement\app\controllers\ResidentController.php';
 class Resident {
     private $db;
 
@@ -9,35 +9,30 @@ class Resident {
         $this->db = $db;
     }
 
-    public function getAllResidents($search = '') {
-        if (!empty($search)) {
-            $sql = "SELECT * FROM Resident WHERE first_name LIKE '%$search%' OR last_name LIKE '%$search%'";
-        } else {
-            $sql = "SELECT * FROM Resident";
+    public function getResidentsWithPagination($limit, $offset, $search = '') {
+        $query = "SELECT * FROM residents WHERE CONCAT(lastname, ' ', firstname) LIKE ? LIMIT ? OFFSET ?";
+        $stmt = $this->db->prepare($query);
+        $search = '%' . $search . '%';
+        $stmt->bind_param("ii", $search, $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $residents = [];
+        while ($row = $result->fetch_assoc()) {
+            $residents[] = $row;
         }
 
-        return $this->db->query($sql);
+        return $residents;
     }
 
-    public function addResident($first_name, $last_name, $middle_name, $gender, $address) {
-        $sql = "INSERT INTO Resident (first_name, last_name, middle_name, gender, address)
-                VALUES ('$first_name', '$last_name', '$middle_name', '$gender', '$address')";
-        return $this->db->query($sql);
-    }
-
-    public function getResidentById($id) {
-        $sql = "SELECT * FROM Resident WHERE id = $id";
-        return $this->db->query($sql)->fetch_assoc();
-    }
-
-    public function updateResident($id, $first_name, $last_name, $middle_name, $gender, $address) {
-        $sql = "UPDATE Resident SET first_name='$first_name', last_name='$last_name', middle_name='$middle_name', gender='$gender', address='$address'
-                WHERE id=$id";
-        return $this->db->query($sql);
-    }
-
-    public function deleteResident($id) {
-        $sql = "DELETE FROM Resident WHERE id = $id";
-        return $this->db->query($sql);
+    public function getResidentCount($search = '') {
+        $query = "SELECT COUNT(*) AS total FROM residents WHERE CONCAT(lastname, ' ', firstname) LIKE ?";
+        $stmt = $this->db->prepare($query);
+        $search = '%' . $search . '%';
+        $stmt->bind_param("s", $search);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['total'];
     }
 }

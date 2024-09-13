@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Resident</title>
     <!-- Optional: You can include Bootstrap for better styling -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="\barangaymanagement\assets\css\css\bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+
+<div class="container">
+
+
+</div>
     <div class="container mt-5">
         <h2>Add New Resident</h2>
-        <form action="add_resident.php" method="POST">
+        <form class="form-control" action="add_resident.php" method="POST">
             <div class="mb-3">
                 <label for="lastName" class="form-label">Last Name</label>
                 <input type="text" class="form-control" id="lastName" name="lastName" required>
@@ -77,7 +83,7 @@
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email">
             </div>
-            <button type="submit" class="btn btn-primary">Add Resident</button>
+            <button type="submit" class="btn btn-success">Add Resident</button>
         </form>
     </div>
 

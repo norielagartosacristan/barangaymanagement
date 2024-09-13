@@ -1,56 +1,26 @@
 <?php
 // app/controllers/ResidentController.php
-require_once '../models/Resident.php';
+require_once 'D:/GrsDatabase/htdocs/barangaymanagement/app/config/db.php';
+require_once 'D:\GrsDatabase\htdocs\barangaymanagement\app\models\Resident.php';
 
 class ResidentController {
     private $residentModel;
 
-    public function __construct($db) {
+    public function __construct() {
         $this->residentModel = new Resident($db);
     }
 
     public function index() {
-        $search = '';
-        if (isset($_GET['search'])) {
-            $search = $_GET['search'];
-        }
-        $residents = $this->residentModel->getAllResidents($search);
-        require_once '../views/residents/index.php';
-    }
+        $limit = 10; // Set number of records per page
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $offset = ($page - 1) * $limit;
 
-    public function create() {
-        require_once '../views/residents/add.php';
-    }
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
+        $residents = $this->residentModel->getResidentsWithPagination($limit, $offset, $search);
+        $totalResidents = $this->residentModel->getResidentCount($search);
 
-    public function store() {
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $middle_name = $_POST['middle_name'];
-        $gender = $_POST['gender'];
-        $address = $_POST['address'];
+        $totalPages = ceil($totalResidents / $limit);
 
-        $this->residentModel->addResident($first_name, $last_name, $middle_name, $gender, $address);
-        header('Location: ../public/index.php');
-    }
-
-    public function edit($id) {
-        $resident = $this->residentModel->getResidentById($id);
-        require_once '../views/residents/edit.php';
-    }
-
-    public function update($id) {
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $middle_name = $_POST['middle_name'];
-        $gender = $_POST['gender'];
-        $address = $_POST['address'];
-
-        $this->residentModel->updateResident($id, $first_name, $last_name, $middle_name, $gender, $address);
-        header('Location: ../public/index.php');
-    }
-
-    public function delete($id) {
-        $this->residentModel->deleteResident($id);
-        header('Location: ../public/index.php');
+        include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\residents\index.php';
     }
 }

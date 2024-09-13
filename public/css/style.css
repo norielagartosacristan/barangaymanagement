@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    
+}
+
+html, body {
+    height: 100%;
+}
+
+#container {
+    min-height: 100%;
+}
+
+#main {
+    overflow: auto;
+    padding-bottom: 100px;
+}
+
+#footer {
+    background-color: aquamarine;
+    position: relative;
+    height: 100px;
+    margin-top: -100px;
+    clear: both;
+}
+
+/* Style for the sidebar - start */
+.sidebar {
+    position: fixed;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: #042331;
+}
+
+.sidebar header {
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    line-height: 70px;
+    background: #063146;
+    user-select: none;
+}
+
+.sidebar ul a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 40px;
+    font-size: 18px;
+    color: white;
+    padding-left: 20px;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(255,255,255,.1);
+    border-bottom: 1px solid black;
+    list-style: none;
+    text-decoration: none;
+}
+
+.ul li:hover a {
+    padding-left: 50px;
+
+}
+/* Style for the sidebar - end */
+
+/* Style for the main content - start */
+.head {
+
+}
+
+.main {
+    margin-left: 250px;
+    padding: 16px;
+    overflow: auto;
+}
+
+.col-div-4-1 {
+    width: 25%;
+    float: left;
+    padding-left: 35px;
+   
+}
+
+.box-households {
+    width: 80%;
+    height: 130px;
+    background-color: red;
+    margin-left: 5px;
+    padding: 10px;
+    box-shadow: 2px 5px 6px 5px;
+    text-align: center;
+    font-weight: 600;
+}
+
+
+.box-residents {
+    width: 80%;
+    height: 130px;
+    background-color: greenyellow;
+    margin-left: 5px;
+    padding: 10px;
+    box-shadow: 2px 5px 6px 5px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.box-male {
+    width: 80%;
+    height: 130px;
+    background-color: beige;
+    margin-left: 5px;
+    padding: 8px;
+    box-shadow: 2px 5px 6px 5px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.box-female {
+    width: 80%;
+    height: 130px;
+    background-color: ghostwhite;
+    margin-left: 5px;
+    padding: 10px;
+    box-shadow: 2px 5px 6px 5px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.population {
+    font-size: 20px;
+}
+.population-date {
+    font-size: 15px;
+}
+
+/* Style for the main content - end */
+
+.searhfield {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.searchbutton {
+    margin-left: 10px;
+}
+
+.btn .btn-secondary {
+    margin-left: 0px;
+}
