@@ -1,6 +1,6 @@
+<?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\header.php'; ?>
+<?php include('D:\GrsDatabase\htdocs\barangaymanagement\app\config\db.php'); ?>
 <?php
-// Include your database connection
-include('D:\GrsDatabase\htdocs\barangaymanagement\app\config\db.php'); // Make sure this file contains the connection to your database
 
 // Fetch the resident's details based on the resident ID passed to the URL
 if (isset($_GET['id'])) {
@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
 
     if ($resident) {
         // Resident data found, display the profile
-        $profileImage = !empty($resident['ProfileImage']) ? 'uploads/' . $resident['ProfileImage'] : 'uploads/default.png';
+        $profileImage = !empty($resident['ProfileImage']) ? 'uploads/images' . $resident['ProfileImage'] : 'uploads/default.jpeg';
     } else {
         echo "Resident not found.";
         exit();
@@ -26,46 +26,6 @@ if (isset($_GET['id'])) {
     exit();
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resident Profile</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .profile-container {
-            width: 60%;
-            margin: 0 auto;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .profile-header {
-            display: flex;
-            align-items: center;
-        }
-        .profile-header img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin-right: 20px;
-        }
-        .profile-info {
-            flex-grow: 1;
-        }
-        .profile-info h1 {
-            margin: 0;
-        }
-        .profile-info p {
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
 
 <div class="profile-container">
     <div class="profile-header">
@@ -95,5 +55,5 @@ if (isset($_GET['id'])) {
     </div>
 </div>
 
-</body>
-</html>
+
+<?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\footer.php'; ?>

@@ -1,5 +1,4 @@
 <?php
-// app/views/dashboard.php
 session_start();
 ?>
 
@@ -12,7 +11,6 @@ session_start();
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="\barangaymanagement\assets\css\css\bootstrap.min.css">
     <link rel="stylesheet" href="\barangaymanagement\public\css\style.css">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 

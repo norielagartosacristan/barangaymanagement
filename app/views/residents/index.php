@@ -2,7 +2,6 @@
 
 <div class="main">
 
-
 <?php
 include 'D:/GrsDatabase/htdocs/barangaymanagement/app/config/db.php';
 
@@ -31,8 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 }
 
+
 // Pagination and search variables
-$limit = 6;  // Number of entries per page
+$limit = 5;  // Number of entries per page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -62,6 +62,8 @@ function calculate_age($birthdate) {
 
 ?>
  
+ 
+
 <div class="container mt-4">
     <h1>List of Resident</h1>
     <div class="searhfield">
@@ -114,7 +116,7 @@ function calculate_age($birthdate) {
         </tbody>
     </table>
 
-    <!-- Pagination -->
+
 
 <?php
     // Assuming $currentPage is the current page number
@@ -127,20 +129,32 @@ function calculate_age($birthdate) {
         
         // Previous button
         if ($currentPage > 1) {
-            echo '<li class="page-item"><a class="page-link" href="?page=' . ($currentPage - 1) . '&search=' . $search . '" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
+            echo '<li class="page-item"><a class="page-link" href="?page=' . ($currentPage - 1) . '&search=' . $search . '" aria-label="Previous"><span aria-hidden="true">Previous</span></a></li>';
         } else {
             echo '<li class="page-item disabled"><span class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></span></li>';
         }
 
-        // Page numbers
-        for ($i = 1; $i <= $totalPages; $i++) {
+        // Page numbers with ellipsis
+        $range = 2; // How many pages to show around the current page
+
+        if ($currentPage > 1 + $range) {
+            echo '<li class="page-item"><a class="page-link" href="?page=1&search=' . $search . '">1</a></li>';
+            echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+        }
+
+        for ($i = max(1, $currentPage - $range); $i <= min($totalPages, $currentPage + $range); $i++) {
             $activeClass = ($i == $currentPage) ? ' active' : '';
             echo '<li class="page-item' . $activeClass . '"><a class="page-link" href="?page=' . $i . '&search=' . $search . '">' . $i . '</a></li>';
         }
 
+        if ($currentPage < $totalPages - $range) {
+            echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+            echo '<li class="page-item"><a class="page-link" href="?page=' . $totalPages . '&search=' . $search . '">' . $totalPages . '</a></li>';
+        }
+
         // Next button
         if ($currentPage < $totalPages) {
-            echo '<li class="page-item"><a class="page-link" href="?page=' . ($currentPage + 1) . '&search=' . $search . '" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
+            echo '<li class="page-item"><a class="page-link" href="?page=' . ($currentPage + 1) . '&search=' . $search . '" aria-label="Next"><span aria-hidden="true">Next</span></a></li>';
         } else {
             echo '<li class="page-item disabled"><span class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></span></li>';
         }
@@ -149,6 +163,9 @@ function calculate_age($birthdate) {
         echo '</nav>';
     }
 ?>
+
+
+
 
 </div>
 
