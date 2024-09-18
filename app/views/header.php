@@ -1,16 +1,8 @@
 <?php
 // app/views/dashboard.php
 session_start();
-
-
-if ($_SESSION['user_role'] != 'admin') {
-    header('Location: public/login.php');
-    exit;
-}
-// Prevent 
-header('Cache-Control: no-cache, must-revalidate');
-header('Pragma: no-cache');
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,3 +33,18 @@ header('Pragma: no-cache');
         <li><a href="">Barangay Clearance</a></li>
     </ul>
 </div>
+
+<div class="container-dashboard">
+            <div class="dashboard-header">
+                <h2>GRS</h2>
+            </div>
+            <div class="clock">
+                <p id="clock"></p>
+            </div>
+            <div class="logout-button">
+                <form action="/barangaymanagement/public/login.php" method="POST" style="display: inline;">
+                    <button class="btn btn-success" type="submit">Logout</button>
+                </form>
+            </div>
+</div>
+

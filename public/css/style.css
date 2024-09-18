@@ -76,16 +76,16 @@ html, body {
 }
 
 .col-div-4-1 {
-    width: 25%;
+    width: 20%;
     float: left;
     padding-left: 35px;
    
 }
 
 .box-households {
-    width: 80%;
+    width: 90%;
     height: 130px;
-    background-color: red;
+    background-color: #5cedd0;
     margin-left: 5px;
     padding: 10px;
     box-shadow: 2px 5px 6px 5px;
@@ -149,3 +149,22 @@ html, body {
 .btn .btn-secondary {
     margin-left: 0px;
 }
+
+/* Style for the dashboard - start */
+.container-dashboard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-direction: row;
+    background-color: aliceblue;
+    height: 60px;
+    margin-left: 250px;
+    padding: 10px 20px;
+}
+
+.logout-button {
+    float: right;
+}
+
+/* Style for the dashboard - end */

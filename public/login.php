@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="\barangaymanagement\assets\css\css\bootstrap.min.css">
-    <link rel="stylesheet" href="\barangaymanagement\public\css\main.css">
+    <link rel="stylesheet" href="\barangaymanagement\public\css\login.css">
 </head>
 <body>
 
-<section id="container">
-    <div id="header">
-        <h1>GRS BARANGAY MANAGEMENT SYSTEM</h1>
+
+    <div class="header-login">
+        <h1>BARANGAY GODOFREDO REYES SR.</h1>
     </div>
-<div id="main">
+    
+<div class="wrapper-main">
         
         <form method="POST" action="../app/controllers/AuthController.php">
             <div>
@@ -31,7 +32,7 @@
         </form>
     
 </div>
-</section>
+
 
 
    
@@ -42,6 +43,8 @@
         <p>Developed by: nsacristan</p>
     </div>
 </section>
+
+
 
 </body>
 </html>

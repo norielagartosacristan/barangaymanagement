@@ -106,7 +106,7 @@ function calculate_age($birthdate) {
                     <td><?= $row['CivilStatus']; ?></td>
                     <td><?= calculate_age($row['Birthdate']); ?></td>
                     <td>
-                        <a href="D:\GrsDatabase\htdocs\barangaymanagement\app\views\residents\edit.phpview.php?id=<?= $row['ID']; ?>" class="btn btn-info btn-sm">View</a>
+                        <a href="/barangaymanagement/app/views/residents/profile.php<?= $row['ID']; ?>" class="btn btn-info btn-sm">View</a>
                         <a href="D:\GrsDatabase\htdocs\barangaymanagement\app\views\residents\edit.phpedit.php?id=<?= $row['ID']; ?>" class="btn btn-warning btn-sm">Edit</a>
                     </td>
                 </tr>
