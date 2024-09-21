@@ -2,35 +2,91 @@
 session_start();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="\barangaymanagement\assets\css\css\bootstrap.min.css">
     <link rel="stylesheet" href="\barangaymanagement\public\css\style.css">
+    <link rel="stylesheet" href="\barangaymanagement\public\css\barangayid.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 </head>
-<body>
+<body onload="startCamera()">
 <div id="container">
 
 <div class="sidebar">
-    <header>GRS</header>
-    <ul>
-        <li><a href="\barangaymanagement\app\views\admin\dashboard.php">Dashboard</a></li>
-        <li><a href="">Barangay Officials</a></li>
-        <li><a href="\barangaymanagement\app\views\residents\index.php">List of Residents</a></li>
-        <li><a href="">Utility Worker</a></li>
-        <li><a href="">Barangay Tanod</a></li>
-        <li><a href="">BNS</a></li>
-        <li><a href="">Business Permit</a></li>
-        <li><a href="">Barangay Clearance</a></li>
-    </ul>
+    <nav class="nav flex-column">
+        <a class="nav-link" href="/barangaymanagement/app/views/admin/dashboard.php">
+            <span class="icon">
+                <i class="bi bi-grid"></i>
+            </span>
+            <span class="description">Dashboard</span>
+        </a>
+        <!-- menu for barangay personnel -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu1" araia-expand="false" arai-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Barangay Personnel Tool <i class="bi bi-caret-down-fill"></i></span>
+         </a>
+        
+         <a class="nav-link" href="/barangaymanagement/app/views/residents/index.php">
+            <span class="icon">
+                <i class="bi bi-bell"></i>
+            </span>
+            <span clas="description">List of Residents</span>
+        </a>
+
+          <!-- menu with dropdown -->
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#submenu2" araia-expand="false" arai-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Clearance & Cert. Tool <i class="bi bi-caret-down-fill"></i></span>
+         </a>
+          <!-- submenu for clearance tool -->
+          <div class="sub-menu collapse" id="submenu2">
+            <a class="nav-link" href="/barangaymanagement/app/views/BarangayClearance/barangayclearance_form.php">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Barangay Clearance</span>
+            </a>
+            <a class="nav-link" href="#">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Business Clearance</span>
+            </a>
+            <a class="nav-link" href="#">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Certificate of Residency</span>
+            </a>
+            <a class="nav-link" href="#">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Certificate of Indigency</span>
+            </a>
+            <a class="nav-link" href="\barangaymanagement\app\views\BarangayID\barangay.php">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Barangay ID</span>
+            </a>
+         </div>
+    </nav>
 </div>
+
+
+
+
+
 
 <div class="container-dashboard">
             <div class="dashboard-header">

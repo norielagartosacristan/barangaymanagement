@@ -64,6 +64,10 @@
                 <input type="text" class="form-control" id="citizenship" name="citizenship" required>
             </div>
             <div class="mb-3">
+                <label for="cityMunicipality" class="form-label">Province</label>
+                <input type="text" class="form-control" id="province" name="province" required>
+            </div>
+            <div class="mb-3">
                 <label for="cityMunicipality" class="form-label">City/Municipality</label>
                 <input type="text" class="form-control" id="cityMunicipality" name="cityMunicipality" required>
             </div>

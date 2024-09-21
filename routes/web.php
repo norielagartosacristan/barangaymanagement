@@ -87,3 +87,7 @@ switch ($request) {
 
 $conn->close(); // Close the database connection
 ?>
+
+
+
+echo "Resident added successfully!";

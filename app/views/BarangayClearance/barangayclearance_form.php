@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barangay Clearance Form</title>
-    <style>
-        #imagePreview {
-            display: none; /* Hide image preview by default */
-            width: 150px; 
-            height: auto;
-            margin-top: 10px;
-        }
-    </style>
+<?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\header.php'; ?>
+
+
     <script>
         // Start the camera when the page loads
         function startCamera() {
@@ -65,35 +54,40 @@
             startCamera();
         }
     </script>
-</head>
-<body onload="startCamera()">
-    <h1>Generate Barangay Clearance</h1>
 
+
+
+<div class="wrapper-bclearance">
+<div>
+<h1 class="bc-clearance-h1">Barangay Clearance Form</h1>
     <form action="generate_clearance.php" method="POST" enctype="multipart/form-data">
         <!-- Resident ID Input -->
-        <div>
-            <label for="residentId">Enter Resident ID:</label>
-            <input type="text" id="residentId" name="residentId" required>
-        </div>
+            <div>
+                <label for="residentId">Resident ID:</label>
+                <input type="text" id="residentId" name="residentId" required>
+            </div>
 
-        <!-- Video Stream for Capture -->
-        <div>
-            <h3>Capture Resident's Photo</h3>
-            <video autoplay></video>
+            <!-- Video Stream for Capture -->
+            <div>
+                <h3>Capture Photo</h3>
+                <video id="video" autoplay></video>
+                <br>
+                <button class="btn btn-primary" type="button" onclick="captureImage()">Capture Image</button>
+                <button class="btn btn-info" type="button" onclick="resetCapture()">Reset</button>
+
+                <!-- Hidden Input to Store Captured Image Data -->
+                <input type="hidden" id="capturedImage" name="capturedImage">
+                
+                <!-- Image Preview -->
+                <img id="imagePreview" alt="Captured Image Preview">
+            </div>
+
+            <!-- Submit Button -->
             <br>
-            <button type="button" onclick="captureImage()">Capture Image</button>
-            <button type="button" onclick="resetCapture()">Reset</button>
-
-            <!-- Hidden Input to Store Captured Image Data -->
-            <input type="hidden" id="capturedImage" name="capturedImage">
-            
-            <!-- Image Preview -->
-            <img id="imagePreview" alt="Captured Image Preview">
-        </div>
-
-        <!-- Submit Button -->
-        <br>
-        <button type="submit">Generate Clearance</button>
+            <button class="btn btn-success" type="submit">Generate Clearance</button>
     </form>
-</body>
-</html>
+</div>
+    
+</div>
+
+<?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\footer.php'; ?>

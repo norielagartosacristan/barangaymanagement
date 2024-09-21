@@ -11,40 +11,33 @@
 <body>
 
 
-    <div class="header-login">
-        <h1>BARANGAY GODOFREDO REYES SR.</h1>
-    </div>
-    
+
 <div class="wrapper-main">
-        
-        <form method="POST" action="../app/controllers/AuthController.php">
+    <div class="left-column">
+        <div class="brgytitle">
+            <h1>BARANGAY GODOFREDO REYES SR.</h1>
+        </div>
+        <div>
+            <img src="\barangaymanagement\uploads\images\grslogo.jpg" alt="Barangay Logo" class="logo-left">
+        </div>
+    </div>
+    <div class="login-form">
+        <h1 class="logindiv">Login</h1>
+    <form class="form-group" method="POST" action="../app/controllers/AuthController.php">
             <div>
                 <label for="username">Username:</label>
-                <input type="text" name="username" id="username" required>
+                <input class="form-control" type="text" name="username" id="username" required>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required>
-            </div>
+                <input class="form-control" type="password" name="password" id="password" required>
+            </div><br>
             <div>
                 <button class="btn btn-success" type="submit">Login</button>
             </div>
         </form>
-    
-</div>
-
-
-
-   
-
-<section id="footer">
-    <div>
-        <p>&copy;2024 Barangay Godofredo Reyes Sr. All rights reserved</p>
-        <p>Developed by: nsacristan</p>
     </div>
-</section>
-
-
+</div>
 
 </body>
 </html>

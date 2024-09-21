@@ -5,9 +5,6 @@ if ($_SESSION['user_role'] != 'admin') {
     header('Location: public/login.php');
     exit;
 }
-// Prevent 
-header('Cache-Control: no-cache, must-revalidate');
-header('Pragma: no-cache');
 ?>
 
 
@@ -51,7 +48,7 @@ $current_date = date('F Y'); // Outputs current month and year in format like 'S
 
             <div class="col-div-4-1">
                     <div class="box-households">
-                        <p class="head-1">Total Households</p>
+                        <p class="head-1">Households</p>
                         <p class="number"><?php echo $total_household; ?></p>
                         <i class="fa fa-line-chart box-icon"></i>
                     </div>
@@ -59,7 +56,7 @@ $current_date = date('F Y'); // Outputs current month and year in format like 'S
 
             <div class="col-div-4-1">
                     <div class="box-households">
-                        <p class="head-1">Total Families</p>
+                        <p class="head-1">Families</p>
                         <p class="number"><?php echo $total_household; ?></p>
                         <i class="fa fa-line-chart box-icon"></i>
                     </div>
@@ -68,7 +65,7 @@ $current_date = date('F Y'); // Outputs current month and year in format like 'S
 
             <div class="col-div-4-1">
                     <div class="box-residents">
-                        <p class="head-1">Total Residents</p>
+                        <p class="head-1">Residents</p>
                         <p class="number"><?php echo $total_residents; ?></p>
                         <i class="fa fa-line-chart box-icon"></i>
                     </div>

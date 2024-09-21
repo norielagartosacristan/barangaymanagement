@@ -45,6 +45,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
+    // Fetch pending cases for the resident
+    $casesSql = "SELECT caseNo, dateOfFilling, natureOfCase, status FROM cases WHERE residentID = ? AND status = 'pending'";
+    $casesStmt = $conn->prepare($casesSql);
+    $casesStmt->bind_param("s", $residentId);
+    $casesStmt->execute();
+    $casesResult = $casesStmt->get_result();
+
+    $casesText = "";
+    if ($casesResult->num_rows > 0) {
+        $casesText = "The resident has the following pending case(s):\n";
+        while ($caseRow = $casesResult->fetch_assoc()) {
+            $casesText .= "Case No: " . $caseRow['caseNo'] . ", Date Filed: " . $caseRow['dateOfFilling'] . ", Nature: " . $caseRow['natureOfCase'] . "\n";
+        }
+    } else {
+        $casesText = "<p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to certify that the above-mentioned resident is known to be of good moral character and law-abiding 
+        citizen in the community.</p><br><p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to further certifies that the above 
+        mentioned name has no derogatory record in this barangay.</p><br><p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This certification is being issued
+        upon the request of the above mentioned person for whaterver legal purpose it may serve.</p>";
+    }
+
     // Get captured image from the form
     $imageDataURL = $_POST['capturedImage'];
     $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageDataURL));
@@ -79,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->SetY(35);
             $this->SetLineWidth(0.3); // Line thickness
             $this->Line(10, 40, 200, 40); // X1, Y1, X2, Y2
+
         }
     }
 
@@ -90,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdf->SetTitle('Barangay Clearance');
 
     // Set margins
-    $pdf->SetMargins(PDF_MARGIN_LEFT, 60, PDF_MARGIN_RIGHT); // Increased top margin
+    $pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT); // Increased top margin
 
     // Add a page
     $pdf->AddPage();
@@ -99,39 +120,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdf->SetFont('helvetica', '', 12);
 
     // Insert the resident's picture
-    $imageX = 15; // X-coordinate of the image
-    $imageY = 50; // Y-coordinate of the image
-    $imageWidth = 40; // Width of the image
-    $imageHeight = 40; // Height of the image
+   // Set initial position for the resident's picture
+$imageX = 15; // X-coordinate of the image
+$imageY = 50; // Y-coordinate of the image
+$imageWidth = 40; // Width of the image
+$imageHeight = 40; // Height of the image
 
-    if ($imageData) {
-        $pdf->Image('@' . $imageData, $imageX, $imageY, $imageWidth, $imageHeight, 'JPEG'); // Adjust position and size accordingly
-    }
+// Insert the image if data is available
+if ($imageData) {
+    $pdf->Image('@' . $imageData, $imageX, $imageY, $imageWidth, $imageHeight, 'JPEG'); 
+}
 
-    // Create Barangay Clearance content
-    $textX = $imageX + $imageWidth + 10; // 10 units space between image and text
-    $textY = $imageY; // Align with the top of the image
+// Adjust text position to prevent overlapping with the image
+$textX = $imageX + $imageWidth + 10; // Adds space between the image and text
+$textY = $imageY; // Aligns text with the top of the image
 
-    $pdf->SetXY($textX, $textY);
-    
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->MultiCell(0, 12, "
-    <p><strong>Name:</strong> $fullName</p>
-    <p><strong>Gender:</strong> $gender</p>
-    <p><strong>Civil Status:</strong> $civilStatus</p>
-    <p><strong>Age:</strong> $age</p>
-    <p><strong>Address:</strong> $sitioZone, Barangay $barangay, $cityMunicipality, Camarines Sur</p>", 0, 'L', 0, 1, '', '', true, 0, true
-    );
+// Set position for the text and ensure it does not overlap
+$pdf->SetXY($textX, $textY);
 
-
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->MultiCell(0, 12, "
-   
-    <p>This is to certify that the name above-mentioned name ha no derogatory record in this barangay.</p>", 0, 'L', 0, 1, '', '', true, 0, true
-    );
-
+// Output each line of resident details separately to avoid overlap
+$pdf->MultiCell(0, 4, "Resident ID No: $residentId", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 2);
+$pdf->MultiCell(0, 5, "Name: $fullName", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 2); // Adjust Y position for the next line to create spacing
+$pdf->MultiCell(0, 5, "Gender: $gender", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 2);
+$pdf->MultiCell(0, 5, "Civil Status: $civilStatus", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 2);
+$pdf->MultiCell(0, 5, "Age: $age", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 2);
+$pdf->MultiCell(0, 5, "Address: $sitioZone, Barangay $barangay, $cityMunicipality, Camarines Sur", 0, 'L', 0, 1);
 
 
+
+// Signature (Placeholder)
+$pdf->Ln(70);
+$pdf->Cell(0, 5, 'HON. ESTEBAN H. LACSON JR.', 0, 1, 'R');
+$pdf->Cell(0, 5, 'Barangay Captain', 0, 1, 'R');
+
+
+    // Add the cases information or clearance statement
+    $pdf->SetXY(15, $imageY + $imageHeight + 20); // Position below the image and details
+    $pdf->MultiCell(0, 12, $casesText, 0, 'L', 0, 1, '', '', true, 0, true);
 
     // Output the PDF
     $pdf->Output('barangay_clearance.pdf', 'I');

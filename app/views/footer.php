@@ -3,6 +3,46 @@
 
 
 
+
+
+
+<!-- Full screen modal script start -->
+<script>
+        // Get elements
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeModalFooterBtn = document.getElementById('closeModalFooterBtn');
+        const modal = document.getElementById('fullScreenModal');
+
+        // Open the modal when button is clicked
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'flex'; // Display as flex to center content
+        });
+
+        // Close the modal when the 'x' button is clicked
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close the modal when the footer button is clicked
+        closeModalFooterBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close the modal when clicking outside the content area
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+
+<!-- Full screen modal script end -->
+
+
+
+
+
 <script>
 // JavaScript function to start the clock
 function startClock() {
@@ -56,7 +96,7 @@ startClock();
         $('#residentTable').DataTable();
     });
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </div>
 </body>
 </html>
