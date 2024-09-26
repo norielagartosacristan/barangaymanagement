@@ -149,8 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- Success Modal -->
 <div id="successModal" class="modal">
     <div class="modal-content">
-        <h2>Success!</h2>
-        <p>Resident added successfully!</p>
+        <h2>Added Successfully!</h2>
+        <p>Resident added successfully with resident id number <?php echo $residentID ?></p>
         <button id="doneButton">Done</button>
     </div>
 </div>

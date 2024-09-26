@@ -8,7 +8,7 @@ if (isset($_GET['id'])) {
 
     // Prepare the SQL query to get resident details
     $query = "SELECT * FROM Residents WHERE ID = ?";
-    $stmt = $conn->prepare($query);
+    $stmt = $db->prepare($query);
     $stmt->bind_param("i", $residentID);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -45,8 +45,9 @@ if (isset($_GET['id'])) {
         <h3>Resident Details</h3>
         <p><strong>Occupation:</strong> <?php echo $resident['Occupation']; ?></p>
         <p><strong>Civil Status:</strong> <?php echo $resident['CivilStatus']; ?></p>
-        <p><strong>Birthplace:</strong> <?php echo $resident['Birthplace']; ?></p>
+        <p><strong>Birthplace:</strong> <?php echo $resident['BirthPlace']; ?></p>
         <p><strong>Citizenship:</strong> <?php echo $resident['Citizenship']; ?></p>
+        <p><strong>Province:</strong> <?php echo $resident['Province']; ?></p>
         <p><strong>Municipality:</strong> <?php echo $resident['CityMunicipality']; ?></p>
         <p><strong>Barangay:</strong> <?php echo $resident['Barangay']; ?></p>
         <p><strong>Sitio/Zone:</strong> <?php echo $resident['SitioZone']; ?></p>

@@ -1,9 +1,24 @@
 
+<!-- Modal for adding household -->
+<script>
+        // Select the modal element
+        const myHousehold = new bootstrap.Modal(document.getElementById('myHousehold'));
 
+        // Event listener to open the modal when the button is clicked
+        document.getElementById('openHousehold').addEventListener('click', () => {
+        myHousehold.show();
+        });
 
+        // Event listener for the "Save changes" button inside the modal
+        document.getElementById('saveChanges').addEventListener('click', () => {
+        // Perform actions on save, e.g., form submission or other logic
+        alert('Changes have been saved!');
 
-
-
+        // Close the modal after saving
+        myHousehold.hide();
+        });
+</script>
+    <!-- Modal for adding household -->
 
 
 <!-- Full screen modal script start -->
@@ -96,6 +111,7 @@ startClock();
         $('#residentTable').DataTable();
     });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </div>
 </body>

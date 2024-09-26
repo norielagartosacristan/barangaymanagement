@@ -1,4 +1,4 @@
-<?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\header.php'; ?>
+<?php include 'D:/GrsDatabase/htdocs/barangaymanagement/app/views/header.php'; ?>
 
 <div class="main">
 
@@ -65,11 +65,12 @@ function calculate_age($birthdate) {
  
 
 <div class="container mt-4">
-    <h1>List of Resident</h1>
+    <h1>List of Residents</h1>
     <div class="searhfield">
         <div class="addbutton">
             <!-- Button to Open Modal for Adding Resident -->
             <button class="btn btn-info" id="openModalBtn">Add Resident</button>
+            <button type="button" class="btn btn-primary" id="openModal">Add Household</button>
         </div>
         <div class="searchbutton">
              <!-- Search form -->
@@ -83,9 +84,9 @@ function calculate_age($birthdate) {
 
     <!-- Resident Table -->
     <table id="residentTable" class="table table-bordered table-hover table-striped">
-        <thead>
+        <thead class="theader">
             <tr>
-                <th>Profile Pic</th>
+                <th>Image</th>
                 <th>Resident ID</th>
                 <th>Last Name</th>
                 <th>Middle Name</th>
@@ -99,17 +100,20 @@ function calculate_age($birthdate) {
         <tbody>
             <?php while ($row = $result->fetch_assoc()) : ?>
                 <tr>
-                    <td><?= $row['ResidentID']; ?></td>
-                    <td><?= $row['ResidentID']; ?></td>
-                    <td><?= $row['LastName']; ?></td>
-                    <td><?= $row['MiddleName']; ?></td>
-                    <td><?= $row['FirstName']; ?></td>
-                    <td><?= $row['Gender']; ?></td>
-                    <td><?= $row['CivilStatus']; ?></td>
-                    <td><?= calculate_age($row['Birthdate']); ?></td>
-                    <td>
-                        <a href="\barangaymanagement\app\views\residents\profile.php<?= $row['ID']; ?>" class="btn btn-info btn-sm">View</a>
-                        <a href="D:\GrsDatabase\htdocs\barangaymanagement\app\views\residents\edit.phpedit.php?id=<?= $row['ID']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                    <td class="tbody-image">
+                    <img src="<?php echo !empty($row['ProfileImage']) ? '\barangaymanagement\uploads\images\images' . $row['ProfileImage'] : '\barangaymanagement\uploads\images\images'; ?>" alt="Profile Image" style="width: 40px; height: 35px;">
+                    </td>
+                    <td class="table-cell"><?= $row['ResidentID']; ?></td>
+                    <td class="table-cell"><?= $row['LastName']; ?></td>
+                    <td class="table-cell"><?= $row['MiddleName']; ?></td>
+                    <td class="table-cell"><?= $row['FirstName']; ?></td>
+                    <td class="table-cell"><?= $row['Gender']; ?></td>
+                    <td class="table-cell"><?= $row['CivilStatus']; ?></td>
+                    <td class="table-cell"><?= calculate_age($row['Birthdate']); ?></td>
+                    <td class="td-button">
+                        <a href="\barangaymanagement\app\views\residents\residentprofile.php?id=<?= $row['ID']; ?>" class="btn btn-info btn-sm">View</a>
+                        <a class="btn btn-primary edit-btn btn-sm" href="/barangaymanagement/app/views/residents/edit.php?id=<?= $row['ID']; ?>">Edit</a>
+                        <a class="btn btn-danger edit-btn btn-sm" href="">Delete</a>
                     </td>
                 </tr>
             <?php endwhile; ?>
@@ -273,16 +277,84 @@ function calculate_age($birthdate) {
     </div>
 
 
+<!-- Modal HTML -->
+<div class="modal" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Add Household</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form method="POST" action="add_household.php">
+        <label for="householdHead">Household Head (Resident ID):</label><br>
+        <select name="householdHead" id="householdHead" required>
+            <!-- Populate this dropdown with Resident IDs from the residents table -->
+            <?php
+            $query = "SELECT ResidentID, CONCAT(LastName, ' ',FirstName) AS Name FROM residents";
+            $result = $db->query($query);
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='{$row['ResidentID']}'>{$row['Name']}</option>";
+            }
+            ?>
+        </select>
+        <br>
+
+        <label for="number_of_members">Number of Members:</label><br><br>
+        <input class="form-group" type="number" name="numberOfMembers" id="numberOfMembers" required>
+        <br>
+
+        <button class="btn btn-info" type="submit">Add Household</button>
+    </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Initialize the modal
+  const myModal = new bootstrap.Modal(document.getElementById('myModal'));
+
+  // Event listener to open the modal when the button is clicked
+  document.getElementById('openModal').addEventListener('click', () => {
+    myModal.show(); // Show the modal
+  });
+
+  // Event listener for the "Save changes" button inside the modal
+  document.getElementById('saveChanges').addEventListener('click', () => {
+    alert('Changes have been saved!');
+    myModal.hide(); // Hide the modal after saving
+  });
+</script>
+
 <script>
     $(document).ready(function() {
         $('#residentTable').DataTable();
     });
 </script>
-
-
-
 </div>
-
-
-
 <?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\footer.php'; ?>

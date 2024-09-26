@@ -1,7 +1,6 @@
 * {
     margin: 0;
     padding: 0;
-    
 }
 
 html, body {
@@ -10,6 +9,38 @@ html, body {
 
 #container {
     min-height: 100%;
+}
+
+.theader th {
+    text-align: center;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.tbody-content {
+    width: 15%;
+    
+    padding-top: 10px;
+    font-family: "Sofia", sans-serif;
+    border: 1px solid #ddd;
+    padding: 8px;
+    /* Ensures that text wraps within the cell */
+    word-wrap: break-word; 
+    word-break: break-word; 
+    white-space: normal; 
+}
+.tbody-image {
+    width: 40px;
+    height: 35px;
+}
+.table-cell {
+    padding-top: 30px;
+}
+.td-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 0 auto;
 }
 
 #main {
@@ -138,6 +169,17 @@ html, body {
     flex-direction: row;
 }
 
+.addbutton {
+    margin-top: 0px;
+    margin-bottom: 12px;
+    padding: 0px;
+    font-size: 12px;
+}
+
+.addbutton .btn {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
 .searchbutton {
     margin-left: 10px;
 }
@@ -145,6 +187,8 @@ html, body {
 .btn .btn-secondary {
     margin-left: 0px;
 }
+
+
 
 /* Style for the dashboard - start */
 .container-dashboard {
@@ -231,15 +275,7 @@ body {
 /* Style for the full screen modal - start */
 
  /* Button to open the modal */
- #openModalBtn {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 20px;
-}
+
 
 /* Full-screen modal styling */
 .modal {
