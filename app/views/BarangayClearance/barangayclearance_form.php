@@ -1,6 +1,5 @@
 <?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\header.php'; ?>
 
-
     <script>
         // Start the camera when the page loads
         function startCamera() {
@@ -62,11 +61,22 @@
 <h1 class="bc-clearance-h1">Barangay Clearance Form</h1>
     <form action="generate_clearance.php" method="POST" enctype="multipart/form-data">
         <!-- Resident ID Input -->
-            <div>
+         <div class="form-group">
+         <div>
                 <label for="residentId">Resident ID:</label>
                 <input type="text" id="residentId" name="residentId" required>
             </div>
-
+            <div>
+                <label for="residentId">Official Receipt No.:</label>
+                <input type="text" id="receiptno" name="receiptno" required>
+            </div>
+            <div>
+                 <label for="amount">Amount:</label>
+                 <input type="text" id="amount" name="amount" required>
+            </div>
+            
+         </div>
+           
             <!-- Video Stream for Capture -->
             <div>
                 <h3>Capture Photo</h3>
@@ -87,7 +97,7 @@
             <button class="btn btn-success" type="submit">Generate Clearance</button>
     </form>
 </div>
-    
+
 </div>
 
 <?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\footer.php'; ?>

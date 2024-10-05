@@ -15,6 +15,10 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $residentId = $_POST['residentId'];
+    $receiptno = $_POST['receiptno'];
+    $amount = $_POST['amount'];
+
+
 
     // Fetch resident data from the database
     $sql = "SELECT FirstName, MiddleName, LastName, Gender, CivilStatus, Birthdate, BirthPlace, Occupation, Citizenship, CityMunicipality, Barangay, SitioZone FROM residents WHERE ResidentID = ?";
@@ -45,6 +49,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
+
+    // Fetch Punong Barangay's name dynamically from the `barangay_officials` table
+    $punongBarangaySql = "SELECT FullName FROM barangay_officials WHERE Position = 'Punong Barangay' LIMIT 1";
+    $punongBarangayResult = $conn->query($punongBarangaySql);
+
+    if ($punongBarangayResult->num_rows > 0) {
+        $punongBarangayRow = $punongBarangayResult->fetch_assoc();
+        $punongBarangayName = $punongBarangayRow['FullName'];  // This will store the Punong Barangay's name
+    } else {
+        $punongBarangayName = "Punong Barangay Name Not Found";  // Default if not found
+    }
+
+
     // Fetch pending cases for the resident
     $casesSql = "SELECT caseNo, dateOfFilling, natureOfCase, status FROM cases WHERE residentID = ? AND status = 'pending'";
     $casesStmt = $conn->prepare($casesSql);
@@ -59,8 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $casesText .= "Case No: " . $caseRow['caseNo'] . ", Date Filed: " . $caseRow['dateOfFilling'] . ", Nature: " . $caseRow['natureOfCase'] . "\n";
         }
     } else {
-        $casesText = "<p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to certify that the above-mentioned resident is known to be of good moral character and law-abiding 
-        citizen in the community.</p><br><p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to further certifies that the above 
+        $casesText = "<p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to certify that the bearer mentioned above, of legal age, is personally known to the 
+        undersigned to be a person of good moral character and law abiding citizen in the 
+        community and his/her conduct in the barangay is beyond reproach.</p><br>
+        <p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to further certifies that the above 
         mentioned name has no derogatory record in this barangay.</p><br><p style='text-align: justify;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This certification is being issued
         upon the request of the above mentioned person for whaterver legal purpose it may serve.</p>";
     }
@@ -101,6 +120,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->Line(10, 40, 200, 40); // X1, Y1, X2, Y2
 
         }
+        // Footer function in your PDF class
+        function Footer() {
+            // Position at 1.5 cm from bottom
+            $this->SetY(-15);
+            // Set font
+            $this->SetFont('helvetica', 'I', 9);
+            // Note in the footer
+            $this->Cell(0, 5, 'Note: This is a system-generated certificate with e-signature. Not valid without dry seal and official receipt.', 0, 1, 'C');
+            // New line for validity period
+            $this->Cell(0, 5, 'Valid only for six months from the date of issue.', 0, 0, 'C');
+        }
     }
 
     // Create new PDF document
@@ -111,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdf->SetTitle('Barangay Clearance');
 
     // Set margins
-    $pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT); // Increased top margin
+    $pdf->SetMargins(20, 25, 20); // Increased top margin
 
     // Add a page
     $pdf->AddPage();
@@ -121,10 +151,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insert the resident's picture
    // Set initial position for the resident's picture
-$imageX = 15; // X-coordinate of the image
-$imageY = 50; // Y-coordinate of the image
-$imageWidth = 40; // Width of the image
-$imageHeight = 40; // Height of the image
+$imageX = 10; // X-coordinate of the image
+$imageY = 45; // Y-coordinate of the image
+$imageWidth = 35; // Width of the image
+$imageHeight = 30; // Height of the image
 
 // Insert the image if data is available
 if ($imageData) {
@@ -139,29 +169,63 @@ $textY = $imageY; // Aligns text with the top of the image
 $pdf->SetXY($textX, $textY);
 
 // Output each line of resident details separately to avoid overlap
-$pdf->MultiCell(0, 4, "Resident ID No: $residentId", 0, 'L', 0, 1);
-$pdf->SetXY($textX, $pdf->GetY() + 2);
-$pdf->MultiCell(0, 5, "Name: $fullName", 0, 'L', 0, 1);
-$pdf->SetXY($textX, $pdf->GetY() + 2); // Adjust Y position for the next line to create spacing
-$pdf->MultiCell(0, 5, "Gender: $gender", 0, 'L', 0, 1);
-$pdf->SetXY($textX, $pdf->GetY() + 2);
-$pdf->MultiCell(0, 5, "Civil Status: $civilStatus", 0, 'L', 0, 1);
-$pdf->SetXY($textX, $pdf->GetY() + 2);
-$pdf->MultiCell(0, 5, "Age: $age", 0, 'L', 0, 1);
-$pdf->SetXY($textX, $pdf->GetY() + 2);
-$pdf->MultiCell(0, 5, "Address: $sitioZone, Barangay $barangay, $cityMunicipality, Camarines Sur", 0, 'L', 0, 1);
+$pdf->MultiCell(0, 3, "Resident ID No: $residentId", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 1);
+$pdf->MultiCell(0, 2, "Name: $fullName", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 1); // Adjust Y position for the next line to create spacing
+$pdf->MultiCell(0, 2, "Gender: $gender", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 1);
+$pdf->MultiCell(0, 2, "Civil Status: $civilStatus", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 1);
+$pdf->MultiCell(0, 2, "Age: $age", 0, 'L', 0, 1);
+$pdf->SetXY($textX, $pdf->GetY() + 1);
+$pdf->MultiCell(0, 2, "Address: $sitioZone, Barangay $barangay, $cityMunicipality, Camarines Sur", 0, 'L', 0, 1);
 
 
 
 // Signature (Placeholder)
-$pdf->Ln(70);
-$pdf->Cell(0, 5, 'HON. ESTEBAN H. LACSON JR.', 0, 1, 'R');
-$pdf->Cell(0, 5, 'Barangay Captain', 0, 1, 'R');
 
+
+$pdf->Ln(70);
+$pdf->Cell(0, 5, 'Hon. ' . $punongBarangayName . '', 0, 1, 'R');
+$pdf->Cell(0, 5, 'Punong Barangay', 0, 1, 'R');
+
+
+// Date of issuance
+$currentDate = date('F j, Y'); // Example format: October 4, 2024
+
+// QR code content (For example: resident details or a URL)
+$qrCodeContent = "Resident ID: $residentId\nName: $fullName\nGender: $gender\nCivil Status: $civilStatus\nAge: $age";
+
+// Set X and Y positions for the QR code and Date Issued to display them side by side
+$qrCodeX = 15; // X-coordinate for the QR code (left side)
+$dateIssuedX = 35; // X-coordinate for the date issuance (right side, adjust as neede
+
+
+// Add the QR code right after "Doc Stamp: Paid"
+$pdf->Ln(5); // Adds some space before the QR code
+$pdf->write2DBarcode($qrCodeContent, 'QRCODE,H', 15, $pdf->GetY(), 20, 20);
+
+// Move to the right for the Date Issued section (same Y position)
+$pdf->SetXY($dateIssuedX, $pdf->GetY()); // Set the X and keep the same Y
+
+// Output the Date Issued and Doc Stamp on the right
+
+$pdf->MultiCell(0, 5, 'Date Issued: ' . $currentDate, 0, 'L');
+$pdf->SetX(35); // Adjust this value for the Doc Stamp as needed
+$pdf->MultiCell(0, 5, 'Doc Stamp: Paid', 0, 'L');
+$pdf->SetX(35); // Adjust X position to move it to the right
+$pdf->MultiCell(0, 5, 'O.R. No.: ' . $receiptno, 0, 'L');
+$pdf->SetX(35); // Adjust X position to move it to the right
+$pdf->MultiCell(0, 5, 'Amount: ' . $amount, 0, 'L');
+
+ 
 
     // Add the cases information or clearance statement
     $pdf->SetXY(15, $imageY + $imageHeight + 20); // Position below the image and details
     $pdf->MultiCell(0, 12, $casesText, 0, 'L', 0, 1, '', '', true, 0, true);
+
+
 
     // Output the PDF
     $pdf->Output('barangay_clearance.pdf', 'I');

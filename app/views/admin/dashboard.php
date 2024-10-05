@@ -1,4 +1,4 @@
-<?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\header.php'; ?>
+<?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\admin\header.php'; ?>
 
 <?php
 if ($_SESSION['user_role'] != 'admin') {
@@ -86,10 +86,55 @@ $current_date = date('F Y'); // Outputs current month and year in format like 'S
                         <i class="fa fa-line-chart box-icon"></i>
                     </div>
             </div>
+        </div> 
+        
+        <div class="container">
+            <div class="column left">
+                <h2></h2>
+                <p></p>
+            </div>
+
+
+            <div class="column right">
+                <h2>Population/Sitio</h2>
+                <div class="scrollable-content">
+                    <div class="content-" id="population-data">
+                    <!-- Population data will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-            
+
 </div>
 
 
+<script>
+    function fetchPopulationData() {
+    fetch('/barangaymanagement/app/views/admin/fetch_population_by_sitio.php')
+        .then(response => response.json())
+        .then(data => {
+            const populationContainer = document.getElementById('population-data');
+            populationContainer.innerHTML = ''; // Clear existing data
+
+            data.forEach(sitio => {
+                const sitioDiv = document.createElement('div');
+                sitioDiv.classList.add('population-item');
+                sitioDiv.innerHTML = `
+                    <h2>${sitio.SitioZone}</h2>
+                    <h1>Total <span>${sitio.total}</span></h1>
+                    <h1>Male <span>${sitio.male_count}</span></h1>
+                    <h1>Female <span>${sitio.female_count}</span></h1>
+                    <h1>Jobless <span>${sitio.jobless_count}</span></h1>
+                `;
+                populationContainer.appendChild(sitioDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching population data:', error));
+}
+
+fetchPopulationData();
+</script>
 
 <?php include 'D:\GrsDatabase\htdocs\barangaymanagement\app\views\footer.php'; ?>
