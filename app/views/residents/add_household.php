@@ -21,6 +21,8 @@ function generateHouseholdNumber($db) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $householdHead = $_POST['householdHead'];
     $numberOfMembers = $_POST['numberOfMembers'];
+    $sitioAddress = $_POST['sitioAddress'];
+
 
     // Check if FamilyHeadID exists in the residents table
     $query = "SELECT ResidentID FROM residents WHERE ResidentID = ?";
@@ -36,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Generate HouseholdNumber and insert family record
         $householdNumber = generateHouseholdNumber($db);
 
-        $insertQuery = "INSERT INTO household (HouseholdNumber, HouseholdHead, NumberOfMembers) VALUES (?, ?, ?)";
+        $insertQuery = "INSERT INTO household (HouseholdNumber, HouseholdHead, NumberOfMembers, SitioAddress) VALUES (?, ?, ?, ?)";
         $stmt = $db->prepare($insertQuery);
-        $stmt->bind_param("isi", $householdNumber, $householdHead, $numberOfMembers);
+        $stmt->bind_param("isis", $householdNumber, $householdHead, $numberOfMembers, $sitioAddress);
 
         if ($stmt->execute()) {
             // Set a success flag to display the success message

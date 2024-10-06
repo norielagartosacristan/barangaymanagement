@@ -300,9 +300,11 @@ function calculate_age($birthdate) {
         </select>
         <br>
 
-        <label for="number_of_members">Number of Members:</label><br><br>
+        <label for="number_of_members">Number of Members:</label><br>
         <input class="form-group" type="number" name="numberOfMembers" id="numberOfMembers" required>
         <br>
+        <label for="number_of_members">Sitio Address:</label><br>
+        <input class="form-group" type="text" name="sitioAddress" id="sitioAddress" required><br>
 
         <button class="btn btn-info" type="submit">Add Household</button>
     </form>

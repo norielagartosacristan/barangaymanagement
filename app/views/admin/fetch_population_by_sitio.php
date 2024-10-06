@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Prepare the SQL query to fetch population data grouped by SitioZone
-$sql = "SELECT SitioZone, 
+$sql = "SELECT SitioZone,
                COUNT(*) AS total, 
                SUM(CASE WHEN Gender = 'Male' THEN 1 ELSE 0 END) AS male_count,
                SUM(CASE WHEN Gender = 'Female' THEN 1 ELSE 0 END) AS female_count,

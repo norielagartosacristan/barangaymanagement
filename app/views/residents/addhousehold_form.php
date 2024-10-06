@@ -24,7 +24,9 @@
         <label for="number_of_members">Number of Members:</label><br><br>
         <input class="form-group" type="number" name="numberOfMembers" id="numberOfMembers" required>
         <br>
-
+        <label for="number_of_members">Number of Members:</label><br><br>
+        <input class="form-group" type="number" name="numberOfMembers" id="numberOfMembers" required>
+        
         <button class="btn btn-info" type="submit">Add Household</button>
     </form>
 </div>
